@@ -212,7 +212,7 @@ def convert_imgae():
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' + secure_filename(f.filename))
             byte_image_list = person_To_anime(randomDirName)
-            return send_file(byte_image_list, mimetype="image/jpeg")
+            return send_file(byte_image_list[0], mimetype="image/jpeg")
         elif check_value == "m2f":
             path = '/home/user/upload/male2female/'
             os.mkdir(path + randomDirName)
