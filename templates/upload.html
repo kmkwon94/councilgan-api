@@ -1,0 +1,91 @@
+<!-- fileupload html 만들기-->
+<html>
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+      .img{
+            height: 250px;
+          }
+
+      figure{
+            display: inline-block;
+            text-align: center;
+          }
+      </style>
+    <title>Council-GAN</title>    
+</head>
+  <body>
+    <div class = "container">
+      <div class="jumbotron mt-3">
+        <h1>Council-GAN</h1>
+          <A>Git Hub repository : </A> <A href="https://github.com/kmkwon94/Council-GAN"> Council-GAN(Ainized)</A>
+          <br>
+          <A>Original Git hub repository : </A> <A href="https://github.com/Onr/Council-GAN"> Council-GAN </A>
+          <hr class="solid">
+          <form action="/fileUpload" method="POST" enctype="multipart/form-data">
+          <h2>Choose Model</h2>
+            <label
+              ><input type="radio" name="check_model" value="ani" />person2anime</label
+            >
+            <label
+              ><input type="radio" name="check_model" value="m2f" />male2female</label
+            >
+            <label
+              ><input type="radio" name="check_model" value="nogl" />no glasses</label
+            >
+
+          <h2>Upload and Run Council-GAN</h2>
+            <h6>* We recommend you that the input file will be the ID- photographs or something *</h6>
+            <a href="/static/sample_img/person2anime_sample.jpg" download>>> Download person2anime sample input image</a><br/>
+            <a href="/static/sample_img/male2female_sample2.png" download>>> Download male2female sample input image</a><br/>
+            <a href="/static/sample_img/noglasses_sample1.jpeg" download>>> Download no glasses sample input image</a><br/>
+            <label for="source">Input image : </label>
+            <input type="file" name="file" style="margin-right: 10px; margin-bottom: 10px;"/>
+            <input type="submit" class="btn btn-primary btn-lg" style="margin-left: auto;" />
+          </form>
+          <div id="sampleBox">
+            <h2>Example</h2>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/person2anime_sample.jpg" alt="person to anime Sample">
+                  <figcaption>person to anime Sample</figcaption>
+            </figure>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_result_img/person2anime_output_sample.jpg" alt="person to anime output Sample">
+                  <figcaption>person to anime output Sample</figcaption>
+            </figure>
+            <br/>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/male2female_sample2.png" alt="male to female Sample">
+                  <figcaption>male to female Sample</figcaption>
+            </figure>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_result_img/male2female_output_sample.jpg" alt="male to female output Sample">
+                  <figcaption>male to female output Sample</figcaption>
+            </figure>
+            <br/>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/noglasses_sample1.jpeg" alt="No glasses Sample">
+                  <figcaption>No glasses Sample</figcaption>
+            </figure>
+            <figure>
+              <img class="img" src="https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_result_img/no_glasses_output_sample.jpg" alt="No glasses output Sample">
+              <figcaption>No glasses output Sample</figcaption>
+            </figure>
+          </div>
+          <div id ='resultBox' style="margin-left: auto; margin-right: auto;">
+            <p id='errorbox'></p>
+            <img id='resultImage' src="" alt="">
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+

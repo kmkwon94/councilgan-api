@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    {% for img in rawimg %}
+    <img src="data:image/jpg;base64,{{ img|safe }}">
+    {% endfor %}
+  </body>
+</html>
