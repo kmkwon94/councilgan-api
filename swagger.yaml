@@ -1,0 +1,90 @@
+openapi: 3.0.1
+
+info:
+  title: Council-GAN
+  description: | 
+    This API is about Council-GAN opensource project.
+    
+    You can change image 
+    1. Person to Anime
+    2. Male to Female
+    3. Person who wear the glasses to no glasses
+    
+    You can test Council-GAN in API or **[Web Demo](https://master-councilgan-api-kmkwon94.endpoint.ainize.ai/)**.
+    
+    Recommendation :
+    
+    * We recommend you that the input file will be the ID- photographs or something.
+    * This model is learned based on the White's images, so the White's rate of recognition is higher than Asian.
+    * The recognition rate of photos up to the upper body is higher than those with only the face.
+    
+    Original Repo of project : [https://github.com/Onr/Council-GAN](https://github.com/Onr/Council-GAN)
+    
+    ---
+    
+      How to use:
+      * Prepare image which you want to change
+      * Choose model name. (ani, m2f, noglasses)
+      * Execute and wait some time.
+      * If you use web server above, you can use this api more easier.
+  version: "0.1"
+  license: 
+    name: "MIT License"
+
+servers:
+  - url: https://master-councilgan-api-kmkwon94.endpoint.ainize.ai/
+  
+paths:
+  /convert_image:
+    post:
+      requestBody:
+        required: true
+        description: | 
+            Enter image.
+            
+            Enter model name (ani, m2f, no_glasses).
+            
+            [sample image for person2anime](https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/person2anime_sample.jpg)
+            
+            [sample image for male2female](https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/male2female_sample2.png)
+            
+            [sample image for no_glasses](https://raw.githubusercontent.com/kmkwon94/Council-GAN/master/sample_img/noglasses_sample1.jpeg)
+            
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: input image here
+                  type: string
+                  format: binary
+                check_model:
+                  description: |
+                    Please check proper model:
+                    model | definition
+                    ----|------------
+                    ani  | person to anime
+                    m2f  | male to female
+                    no_glasses  | no glasses
+                  type: string
+                  enum: [ani, m2f, no_glasses]
+            
+            
+      responses:
+        '200':
+          description: success
+          content:
+            images/*:
+              schema:
+                type: string
+                format: binary
+                
+        '400':
+          description: Bad Request
+          
+        '429':
+          description: Too Many Requests
+        
+        '500':
+          description: Server side error

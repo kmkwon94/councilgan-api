@@ -158,12 +158,13 @@ def render_file():
 def healthz():
     return "I am alive", 200
 
+#for web Demo
 @app.route('/fileUpload', methods=['POST'])
 def fileupload():
     #내가 전달 받는 request는 'file'과 'check_model'
     check_value = request.form['check_model']
     f = request.files['file']
-    
+    is_api = False
     #handling over request by status code 429
     global threads
     print(len(threads),"fileUpload")
@@ -176,29 +177,30 @@ def fileupload():
             path = '/home/user/upload/person2anime/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' + secure_filename(f.filename))
-            byte_image_list = person_To_anime(randomDirName)
+            byte_image_list = person_To_anime(randomDirName, is_api)
             return render_template('showImage.html', rawimg=byte_image_list)
         elif check_value == "m2f":
             path = '/home/user/upload/male2female/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' +secure_filename(f.filename))
-            byte_image_list = male_To_female(randomDirName)
+            byte_image_list = male_To_female(randomDirName, is_api)
             return render_template('showImage.html', rawimg=byte_image_list)
         else:
             path = '/home/user/upload/no_glasses/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' + secure_filename(f.filename))
-            byte_image_list = no_glasses(randomDirName)
+            byte_image_list = no_glasses(randomDirName, is_api)
             return render_template('showImage.html', rawimg=byte_image_list)
     except Exception as e:
         print(e)
         return Response("upload file and load model is fail", status=400)
 
+#for swagger file
 @app.route('/convert_image', methods=['POST'])
 def convert_imgae():
     check_value = request.form['check_model']
     f = request.files['file']
-    
+    is_api = True
     #handling over request by status code 429
     global threads
     print(len(threads),"convert_image")
@@ -211,26 +213,26 @@ def convert_imgae():
             path = '/home/user/upload/person2anime/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' + secure_filename(f.filename))
-            byte_image_list = person_To_anime(randomDirName)
+            byte_image_list = person_To_anime(randomDirName, is_api)
             return send_file(byte_image_list, mimetype="image/jpeg")
         elif check_value == "m2f":
             path = '/home/user/upload/male2female/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' +secure_filename(f.filename))
-            byte_image_list = male_To_female(randomDirName)
+            byte_image_list = male_To_female(randomDirName, is_api)
             return send_file(byte_image_list, mimetype="image/jpeg")
         else:
             path = '/home/user/upload/no_glasses/'
             os.mkdir(path + randomDirName)
             f.save(path + randomDirName + '/' + secure_filename(f.filename))
-            byte_image_list = no_glasses(randomDirName)
+            byte_image_list = no_glasses(randomDirName, is_api)
             return send_file(byte_image_list, mimetype="image/jpeg")
     except Exception as e:
         print(e)
         return Response("upload file and load model is fail", status=400)
 
 #사용자의 입력을 받아서 각 원하는 결과물을 라우팅
-def person_To_anime(randomDirName):
+def person_To_anime(randomDirName, is_api):
     try:
         user_key = randomDirName
         input_ = "/home/user/upload/person2anime/" + user_key
@@ -265,7 +267,7 @@ def person_To_anime(randomDirName):
             img_io = io.BytesIO()
             imgFile.save(img_io, 'jpeg', quality = 100)
             img_io.seek(0)
-            return img_io
+            if is_api : return img_io
             img = base64.b64encode(img_io.getvalue())
             tmp_list.append(img)
         
@@ -281,7 +283,7 @@ def person_To_anime(randomDirName):
         print(e)
         return Response("person2anime is fail", status=400)    
 
-def male_To_female(randomDirName):
+def male_To_female(randomDirName, is_api):
     try:
         user_key = randomDirName
         input_ = "/home/user/upload/male2female/" + user_key
@@ -316,6 +318,7 @@ def male_To_female(randomDirName):
             img_io = io.BytesIO()
             imgFile.save(img_io, 'jpeg', quality = 100)
             img_io.seek(0)
+            if is_api : return img_io
             img = base64.b64encode(img_io.getvalue())
             tmp_list.append(img)
         
@@ -331,7 +334,7 @@ def male_To_female(randomDirName):
         print(e)
         return Response("male2female is fail", status=400)    
    
-def no_glasses(randomDirName):
+def no_glasses(randomDirName, is_api):
     try:
         user_key = randomDirName
         input_ = "/home/user/upload/no_glasses/" + user_key
@@ -366,6 +369,7 @@ def no_glasses(randomDirName):
             img_io = io.BytesIO()
             imgFile.save(img_io, 'jpeg', quality = 100)
             img_io.seek(0)
+            if is_api : return img_io
             img = base64.b64encode(img_io.getvalue())
             tmp_list.append(img)
         
